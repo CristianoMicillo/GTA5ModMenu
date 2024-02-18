@@ -1,0 +1,7 @@
+if you want the menu to always work make sure you ytd stuff in the menu is correct! names etc.
+
+you can edit this YTD file you can add and remove pictures in it and rename it you can do all this with OpenIV 
+if you dont have OpenIV here is a link https://openiv.com/
+
+ALWAYS use Mod Hub x64!
+NEVER Debug or x86
