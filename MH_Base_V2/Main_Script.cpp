@@ -51,6 +51,7 @@ namespace Mod_Hub_Base
 			g_UiManager->AddSubmenu<RegularSubmenu>("Local", Local_Menu, [](RegularSubmenu* sub)
 				{
 					sub->AddOption<BoolOption<bool>>("God mode", nullptr, &Godmode, BoolDisplay::OnOff_Icon);
+					sub->AddOption<BoolOption<bool>>("Money Drop", nullptr, &moneyd, BoolDisplay::OnOff_Icon);
 					sub->AddOption<BoolOption<bool>>("Invisible", nullptr, &Invisible, BoolDisplay::OnOff_Icon);
 					sub->AddOption<BoolOption<bool>>("vehicle color", nullptr, &macchina_col, BoolDisplay::OnOff_Icon);
 					sub->AddOption<BoolOption<bool>>("Vola con la macchina", nullptr, &macchinav, BoolDisplay::OnOff_Icon);
@@ -62,7 +63,10 @@ namespace Mod_Hub_Base
 					sub->AddOption<SubOption>("Teleport Menu", nullptr, Teleport_Menu);
 					g_UiManager->AddSubmenu<RegularSubmenu>("Teleport Menu", Teleport_Menu, [](RegularSubmenu* sub)
 						{
-							sub->AddOption<RegularOption>("TP to Airport", "TP to Airport.", [] { tp_to_airport(); });
+							sub->AddOption<RegularOption>("TP to Airport", "TP to Airport.", [] { tp_to_location(0); });
+							sub->AddOption<RegularOption>("Tattos Vinewood", "Tattos Vinewood", [] { tp_to_location(1); });
+							sub->AddOption<RegularOption>("Polito Bay", "Polito Bay", [] { tp_to_location(2); });
+							sub->AddOption<RegularOption>("Mort Mutual Insurance", "Mort Mutual Insurance", [] { tp_to_location(3); });
 						});
 
 				});

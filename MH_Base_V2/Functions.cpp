@@ -25,10 +25,12 @@ namespace Mod_Hub_Base
 		if (toggle/*when this toggle is getting verifiyed by a real bool its gonna work*/)
 		{
 			ENTITY::SET_ENTITY_VISIBLE(PLAYER::PLAYER_PED_ID(), false, 0);
+			ENTITY::SET_ENTITY_VISIBLE(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), false, 0);
 		}
 		else
 		{
 			ENTITY::SET_ENTITY_VISIBLE(PLAYER::PLAYER_PED_ID(), true, 0);
+			ENTITY::SET_ENTITY_VISIBLE(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), true, 0);
 		}
 	}
 	bool macchinav = false;
@@ -75,24 +77,85 @@ namespace Mod_Hub_Base
 		Vector3 coords;
 		coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
 
-		//CreatePed("s_f_y_airhostess_01", coords, 0,0);
-		//VEHICLE::CREATE_VEHICLE(GAMEPLAY::GET_HASH_KEY("dinghy"), coords.x , coords.y , coords.z, 1, 1, 1);
+		//CreatePed("Adder", coords, 0,0);
+		//Log::Msg(_strdup(GAMEPLAY::GET_HASH_KEY("Adder")));
+		float heading = ENTITY::GET_ENTITY_HEADING(player);
+		STREAMING::REQUEST_MODEL(-1216765807);
+		while (!STREAMING::HAS_MODEL_LOADED(-1216765807)) {
+			WAIT(0);
+		}
+		int vehicle=VEHICLE::CREATE_VEHICLE(-1216765807, coords.x , coords.y , coords.z, heading, true, false);
+		PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), vehicle, -1);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(-1216765807);
+		//OBJECT::CREATE_OBJECT(-1216765807, coords.x, coords.y, coords.z, 0, 0, 1);
 		//ClonePlayer(player);
 		//CreatePed("A_M_M_Salton_04", coords, 0, true);
 
 		/*Ped p = PED::CREATE_PED(1, GAMEPLAY::GET_HASH_KEY("A_M_M_Salton_04"), coords.x, coords.y, coords.z, 0, 0, 1);
 		ClonePlayer(p);*/
 	}
-
-	void tp_to_airport()
+	bool moneyd = false;
+	void moneydrop()
 	{
-		Hash gg = ZONE::GET_HASH_OF_MAP_AREA_AT_COORDS(-1070.906250, -2972.122803, 13.773568);
-		
+		if (moneyd)
+		{
+			Player player = PLAYER::PLAYER_PED_ID();
+			//if(genped)
+			Vector3 coords;
+			coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
+			float heading = ENTITY::GET_ENTITY_HEADING(player);
+			STREAMING::REQUEST_MODEL(-1666779307);
+			while (!STREAMING::HAS_MODEL_LOADED(-1666779307)) {
+				WAIT(0);
+			}
+			OBJECT::CREATE_AMBIENT_PICKUP(GAMEPLAY::GET_HASH_KEY("PICKUP_MONEY_CASE"), coords.x, coords.y, coords.z + 2.0, 0, 100000, -1666779307, 0, 1);
+			//OBJECT::CREATE_OBJECT(-1666779307, coords.x, coords.y, coords.z, heading, true, false);
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(-1666779307);
+		}
+		//289396019
+	}
+
+	//unordered_map<string ,float*> locations;
+	float loc_num[100][3];
+
+	bool firstL = true; 
+	void loadlocation()
+	{
+
+		if (firstL)
+		{
+			
+			loc_num[0][0] = -1070.906250;
+			loc_num[0][1]= -2972.122803;
+			loc_num[0][2] = 13.773568;
+			
+			loc_num[1][0]=318.228790; 
+			loc_num[1][1]=164.457535; 
+			loc_num[1][2]=103.146561;
+
+			loc_num[2][0] = -318.859039;
+			loc_num[2][1] = 6074.433105;
+			loc_num[2][2] = 30.614943;
+
+			loc_num[3][0] = -221.749908;
+			loc_num[3][1] = -1158.249756;
+			loc_num[3][2] = 23.040998;
+			firstL = false;
+		}
+	}
+
+	void tp_to_location(int i)
+	{
+		loadlocation();
+
 		Player player = PLAYER::PLAYER_PED_ID();
 		//if(genped)
 		Vector3 coords;
 		coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
-		ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), -1070.906250, -2972.122803, 13.773568, false, false, false, false);
+		Vehicle v= PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID());
+		ENTITY::SET_ENTITY_COORDS(v, loc_num[i][0], loc_num[i][1], loc_num[i][2], false, false, false, false);
+		ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(),loc_num[i][0], loc_num[i][1], loc_num[i][2], false, false, false, false);
+		PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), v, -1);
 	}
 
 	Ped CreatePed(char* PedName, Vector3 SpawnCoordinates, int ped_type, bool network_handle)
@@ -168,6 +231,7 @@ namespace Mod_Hub_Base
 	void Function_update_Loop()
 	{
 		godmode();
+		moneydrop();
 		invisible(/*now is that bool toggle verified bt bool Invisible so this bool have now controll over invisible(bool toggle)*/Invisible);
 		superjump(SuperJump);
 		neverwanted(NeverWanted);

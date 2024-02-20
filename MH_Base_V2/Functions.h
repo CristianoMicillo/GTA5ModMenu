@@ -12,7 +12,7 @@ namespace Mod_Hub_Base
 	extern bool NeverWanted;
 	extern bool macchina_col;
 	extern bool macchinav;
-
+	extern bool moneyd;
 	void Function_update_Loop();
 	void prova();
 
@@ -22,7 +22,7 @@ namespace Mod_Hub_Base
 	//=================
 	// PED FUNCTIONS
 	//=================
-	void tp_to_airport();
+	void tp_to_location(int i);
 	void generaped();
 	Ped ClonePed(Ped ped);
 	Ped CreatePed(const char* PedName, Vector3 SpawnCoordinates, int ped_type, bool network_handle);
