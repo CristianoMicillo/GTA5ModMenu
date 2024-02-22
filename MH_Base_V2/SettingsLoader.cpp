@@ -240,16 +240,14 @@ bool SaveSettings()
 	std::ofstream outputFile(filename);
 
 	if (outputFile.is_open()) {
-		// Scrivi la rappresentazione JSON dell'oggetto nel file
+		
 		outputFile << std::setw(4) << menuSettings << std::endl;
-
-		// Chiudi il file
 		outputFile.close();
-		return true; // Restituisci true se il salvataggio ha successo
+		return true; 
 	}
 	else {
 		Log::Error("Errore nell'apertura del file.");
-		return false; // Restituisci false se si verifica un errore nell'apertura del file
+		return false;
 	}
 	return 0;
 }
