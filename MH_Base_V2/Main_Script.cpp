@@ -189,7 +189,7 @@ namespace Mod_Hub_Base
 
 			g_UiManager->AddSubmenu<RegularSubmenu>("Settings Loader", SubmenuSettingsLoader, [](RegularSubmenu* sub)
 				{
-					sub->AddOption<RegularOption>("Save current menu settings", nullptr, [] { Mod_Hub_Base::prova(); });
+					sub->AddOption<RegularOption>("Save current menu settings", nullptr, [] { SETTINGS_LOADER::SaveCurrentMenuSettings(); });
 				});
 
 			g_UiManager->AddSubmenu<RegularSubmenu>("Header", SubmenuSettingsHeader, [](RegularSubmenu* sub)
