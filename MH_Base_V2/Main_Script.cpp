@@ -189,7 +189,28 @@ namespace Mod_Hub_Base
 
 			g_UiManager->AddSubmenu<RegularSubmenu>("Settings Loader", SubmenuSettingsLoader, [](RegularSubmenu* sub)
 				{
-					sub->AddOption<RegularOption>("Save current menu settings", nullptr, [] { SETTINGS_LOADER::SaveCurrentMenuSettings(); });
+					sub->AddOption<RegularOption>("Save current menu settings", nullptr, [] {
+						if (SETTINGS_LOADER::SaveCurrentMenuSettings())
+						{
+							notify_Custom((char*)Mod_Menu_Name"", "~r~ERROR!\nError saving settings");
+						}
+						else
+						{
+							notify_Custom((char*)Mod_Menu_Name"", "~g~Done!\nMenu settings saved");
+						}
+						 
+						});
+					sub->AddOption<RegularOption>("Load saved setitings.", nullptr, [] {
+						if (SETTINGS_LOADER::LoadSavedMenuSettings())
+						{
+							notify_Custom((char*)Mod_Menu_Name"", "~r~ERROR!\nError loading saved settings");
+						}
+						else
+						{
+							notify_Custom((char*)Mod_Menu_Name"", "~r~Done!\nSaved settings loaded successfully");
+						}
+
+						});
 				});
 
 			g_UiManager->AddSubmenu<RegularSubmenu>("Header", SubmenuSettingsHeader, [](RegularSubmenu* sub)

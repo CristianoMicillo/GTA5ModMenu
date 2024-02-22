@@ -86,7 +86,7 @@ namespace Mod_Hub_Base::UserInterface
 		float m_PosX = 0.8f;
 		float m_PosY = 0.1f;
 		float m_Width = 0.256f;
-		std::size_t m_OptionsPerPage = 12;
+		std::size_t m_OptionsPerPage = 16;
 		bool m_Sounds = false;
 		bool m_Controllerinput = false;
 
