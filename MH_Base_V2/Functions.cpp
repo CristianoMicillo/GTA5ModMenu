@@ -41,10 +41,10 @@ namespace Mod_Hub_Base
 		{
 			Vector3 coords;
 			coords = ENTITY::GET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), false);
-			coords.y = coords.y + 1;
-			coords.x = coords.x + 1;
+			//coords.y = coords.y + 1;
+			//coords.x = coords.x + 1;
 			//coords.z = coords.z - 1;
-			ENTITY::SET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), coords.x, coords.y, coords.z, false, false, false, false);
+			ENTITY::SET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), coords.x, coords.y, coords.z + 2.0, false, false, false, false);
 		}
 	}
 
