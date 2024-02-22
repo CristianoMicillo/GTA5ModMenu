@@ -79,14 +79,15 @@ namespace Mod_Hub_Base::UserInterface
 	public:
 		std::mutex m_Mutex;
 
+		//Settings
 		bool m_ImGuiActive = false;
 		bool m_Opened = false;
 		bool m_MouseLocked = false;
 		float m_PosX = 0.8f;
 		float m_PosY = 0.1f;
-		float m_Width = 0.24f;
-		std::size_t m_OptionsPerPage = 11;
-		bool m_Sounds = true;
+		float m_Width = 0.256f;
+		std::size_t m_OptionsPerPage = 16;
+		bool m_Sounds = false;
 		bool m_Controllerinput = false;
 
 		// Input
@@ -97,15 +98,19 @@ namespace Mod_Hub_Base::UserInterface
 		std::int32_t m_HorizontalDelay = 120;
 
 		// Header
-		float m_HeaderHeight = 0.1f;
+		HeaderType m_HeaderType = HeaderType::YTD;
+		float m_HeaderHeight = 0.128f;
 		bool m_HeaderText = true;
-		bool Rainbowmenu_titleBool = true;
+		bool Rainbowmenu_titleBool = false;
 		float m_HeaderTextSize = 1.f;
 		Font m_HeaderFont = Font::HouseScript;
-		Color m_HeaderBackgroundColor{ 2, 130, 53, 255 };
 		Color m_HeaderTextColor{ 255, 255, 255, 255 };
-		HeaderType m_HeaderType = HeaderType::YTD;
+		
 
+		//static
+		Color m_HeaderBackgroundColor{ 2, 130, 53, 255 };
+
+		//Gradient
 		bool m_HeaderGradientTransparent = false;
 		bool m_HeaderGradientFlip = false;
 		float m_HeaderGradientStretch = 0.f;
