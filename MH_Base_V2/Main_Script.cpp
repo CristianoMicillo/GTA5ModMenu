@@ -21,7 +21,7 @@ void fisrt_start()
 	/*TO CHANGE THE SETTINGS IN THE MAIN TITLE GO THERE AND YOU WILL FIND
 	YTD_Stream_Texture AND YTD_Texture_Name
 	AND THERE YOU EDIT IN YOUR CUSTOM NAMES DOME.*/
-
+	//
 	//todo: load Settings
 
 	notify_Custom((char*)Mod_Menu_Name"", "~g~Loaded!!\nOpen Menu: F5");

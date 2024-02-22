@@ -34,18 +34,48 @@ namespace Mod_Hub_Base
 		}
 	}
 	bool macchinav = false;
+	int sposta = 0;
 	void macchinavolante()
 	{
 		//PLAYER::
 		if (macchinav)
 		{
 			Vector3 coords;
-			coords = ENTITY::GET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), false);
+			//coords = ENTITY::GET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), false);
+			coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
 			//coords.y = coords.y + 1;
 			//coords.x = coords.x + 1;
-			//coords.z = coords.z - 1;
-			ENTITY::SET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), coords.x, coords.y, coords.z + 2.0, false, false, false, false);
+			//coords.z = coords.z +sposta;
+			//Log::Msg(_strdup(sender.c_str()));SS
+			//Log::Msg(to_string(coords.z));
+			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), coords.x, coords.y, coords.z,true, false, false,false);
+			//ENTITY::SET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), coords.x, coords.y, coords.z + 2.0, false, false, false, false);
+			//sposta++;
 		}
+		else
+		{
+			sposta = 0;
+		}
+	}
+	bool moneyd = false;
+	void moneydrop()
+	{
+		if (moneyd)
+		{
+			Player player = PLAYER::PLAYER_PED_ID();
+			//if(genped)
+			Vector3 coords;
+			coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
+			float heading = ENTITY::GET_ENTITY_HEADING(player);
+			STREAMING::REQUEST_MODEL(-1666779307);
+			while (!STREAMING::HAS_MODEL_LOADED(-1666779307)) {
+				WAIT(0);
+			}
+			OBJECT::CREATE_AMBIENT_PICKUP(GAMEPLAY::GET_HASH_KEY("PICKUP_MONEY_CASE"), coords.x, coords.y, coords.z + 2.0, 0, 100000, -1666779307, 0, 1);
+			//OBJECT::CREATE_OBJECT(-1666779307, coords.x, coords.y, coords.z, heading, true, false);
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(-1666779307);
+		}
+		//289396019
 	}
 
 	int prova1 = 1;
@@ -94,26 +124,7 @@ namespace Mod_Hub_Base
 		/*Ped p = PED::CREATE_PED(1, GAMEPLAY::GET_HASH_KEY("A_M_M_Salton_04"), coords.x, coords.y, coords.z, 0, 0, 1);
 		ClonePlayer(p);*/
 	}
-	bool moneyd = false;
-	void moneydrop()
-	{
-		if (moneyd)
-		{
-			Player player = PLAYER::PLAYER_PED_ID();
-			//if(genped)
-			Vector3 coords;
-			coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
-			float heading = ENTITY::GET_ENTITY_HEADING(player);
-			STREAMING::REQUEST_MODEL(-1666779307);
-			while (!STREAMING::HAS_MODEL_LOADED(-1666779307)) {
-				WAIT(0);
-			}
-			OBJECT::CREATE_AMBIENT_PICKUP(GAMEPLAY::GET_HASH_KEY("PICKUP_MONEY_CASE"), coords.x, coords.y, coords.z + 2.0, 0, 100000, -1666779307, 0, 1);
-			//OBJECT::CREATE_OBJECT(-1666779307, coords.x, coords.y, coords.z, heading, true, false);
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(-1666779307);
-		}
-		//289396019
-	}
+	
 
 	//unordered_map<string ,float*> locations;
 	float loc_num[100][3];
