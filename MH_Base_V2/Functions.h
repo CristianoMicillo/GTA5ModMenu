@@ -13,11 +13,16 @@ namespace Mod_Hub_Base
 	extern bool macchina_col;
 	extern bool macchinav;
 	extern bool moneyd;
+	extern bool noclip;
+	extern bool fastrun;
+	extern bool noclipcar;
 	void Function_update_Loop();
 	void prova();
-
+	void neverwanted();
 	void ClonePlayer(Player selectedPed);
-
+	void FastRun();
+	void invisible();
+	void generaUfo();
 
 	//=================
 	// PED FUNCTIONS

@@ -51,12 +51,15 @@ namespace Mod_Hub_Base
 			g_UiManager->AddSubmenu<RegularSubmenu>("Local", Local_Menu, [](RegularSubmenu* sub)
 				{
 					sub->AddOption<BoolOption<bool>>("God mode", nullptr, &Godmode, BoolDisplay::OnOff_Icon);
+					sub->AddOption<BoolOption<bool>>("No Clip", nullptr, &noclip, BoolDisplay::OnOff_Icon);
+					sub->AddOption<BoolOption<bool>>("Fly Car", nullptr, &noclipcar, BoolDisplay::OnOff_Icon);
+					sub->AddOption<BoolOption<bool>>("Never Wanted", nullptr, &NeverWanted, BoolDisplay::OnOff_Icon, false, [] { neverwanted(); });
 					sub->AddOption<BoolOption<bool>>("Money Drop", nullptr, &moneyd, BoolDisplay::OnOff_Icon);
-					sub->AddOption<BoolOption<bool>>("Invisible", nullptr, &Invisible, BoolDisplay::OnOff_Icon);
+					sub->AddOption<BoolOption<bool>>("Invisible", nullptr, &Invisible, BoolDisplay::OnOff_Icon, false, [] { invisible(); });
 					sub->AddOption<BoolOption<bool>>("vehicle color", nullptr, &macchina_col, BoolDisplay::OnOff_Icon);
-					sub->AddOption<BoolOption<bool>>("Vola con la macchina", nullptr, &macchinav, BoolDisplay::OnOff_Icon);
+					sub->AddOption<BoolOption<bool>>("Super Run", nullptr, &fastrun, BoolDisplay::OnOff_Icon, false, [] { FastRun(); });
 					sub->AddOption<RegularOption>("Max Health", "Maxing Health.", [] { ENTITY::SET_ENTITY_HEALTH(PLAYER::PLAYER_PED_ID(), 400); });
-					sub->AddOption<RegularOption>("Genera ped", "genera ped.", [] { generaped(); });
+					sub->AddOption<RegularOption>("Genera ped", "genera ped.", [] { generaUfo(); });
 					sub->AddOption<RegularOption>("Remove Wanted Levels", "Remove Wanted Levels", [] { PLAYER::CLEAR_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID()), PLAYER::CLEAR_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_PED_ID()); });
 					sub->AddOption<RegularOption>("Fix Car", "Fix Car", [] { VEHICLE::SET_VEHICLE_FIXED(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID())); });
 					

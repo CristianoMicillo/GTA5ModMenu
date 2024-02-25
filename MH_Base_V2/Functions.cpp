@@ -11,18 +11,128 @@ namespace Mod_Hub_Base
 	{//-----------------------get plyer ped id; this bool Godmode is Controling is to true and false 
 		ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), Godmode);
 	}
+
 	bool macchina_col = false;
 	void macchina_colorata()
 	{
 		if (macchina_col)
 		{
-			VEHICLE::SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()),rand()%255, rand() % 255, rand() % 255);
+			VEHICLE::SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), rand() % 255, rand() % 255, rand() % 255);
 		}
 	}
-	bool Invisible = false;
-	void invisible(bool toggle)
+
+	/*
+	Vector3 operator+(const Vector3& vec) {
+		return Vector3(x + vec.x, y + vec.y, z + vec.z);
+	}
+
+	Vector3 operator*(float num) {
+		return Vector3(x * num, y * num, z * num);
+	}
+	*/
+	Vector3 noclipCoords;
+	bool noclip=false;
+	int degree = 0;
+	float clipspeed = 1.0f;
+	void NoClip()
 	{
-		if (toggle/*when this toggle is getting verifiyed by a real bool its gonna work*/)
+		if (!noclip)
+		{
+			return;
+		}
+		Vector3 camCoords;
+		float tX, tZ, num;
+		//degree = degree % 360;
+		//Vector3 rotcam = ENTITY::GET_ENTITY_ROTATION(PLAYER::PLAYER_PED_ID(), 0);
+		
+		Vector3 rot = CAM::GET_GAMEPLAY_CAM_ROT(0);
+		ENTITY::SET_ENTITY_ROTATION(PLAYER::PLAYER_PED_ID(), 0, 0, 180+ENTITY::GET_ENTITY_HEADING(PLAYER::PLAYER_PED_ID())+CAM::GET_GAMEPLAY_CAM_RELATIVE_HEADING(), 0, 0);
+		//degree+=10;
+		
+		
+		tZ = rot.z * 0.0174532924f;
+		tX = rot.x * 0.0174532924f;
+		num = abs(cos(tX));
+		camCoords.x = (-sin(tZ)) * num;
+		camCoords.y = (cos(tZ)) * num;
+		camCoords.z = sin(tX);
+		if (KeyDown(0x57) || CONTROLS::IS_DISABLED_CONTROL_PRESSED(0,208))
+		{
+			noclipCoords.x = noclipCoords.x+(camCoords.x* clipspeed);
+			noclipCoords.y = noclipCoords.y + (camCoords.y * clipspeed);
+			noclipCoords.z = noclipCoords.z + (camCoords.z * clipspeed);
+		}
+		if (KeyDown('S') || CONTROLS::IS_CONTROL_PRESSED(0, 207))
+		{
+			noclipCoords.x = noclipCoords.x - (camCoords.x * clipspeed);
+			noclipCoords.y = noclipCoords.y - (camCoords.y * clipspeed);
+			noclipCoords.z = noclipCoords.z - (camCoords.z * clipspeed);
+		}
+		if (KeyDown(VK_SHIFT))
+		{
+			if(clipspeed<=4.0)
+			clipspeed += 0.05f; 
+		}
+		if (KeyDown(VK_CONTROL))
+		{
+			if(clipspeed > 0.6)
+			clipspeed -= 0.1f;
+		}
+		ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), noclipCoords.x, noclipCoords.y, noclipCoords.z,1,0,0,0);
+		ENTITY::SET_ENTITY_COLLISION(PLAYER::PLAYER_PED_ID(), 1, 1);
+	}
+
+	bool noclipcar = false;
+	void NoClipCar()
+	{
+		if (!noclipcar) return;
+		//PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID())
+		Vector3 camCoords;
+		float tX, tZ, num;
+		//degree = degree % 360;
+		//Vector3 rotcam = ENTITY::GET_ENTITY_ROTATION(PLAYER::PLAYER_PED_ID(), 0);
+
+		Vector3 rot = CAM::GET_GAMEPLAY_CAM_ROT(0);
+		ENTITY::SET_ENTITY_ROTATION(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()),  CAM::GET_GAMEPLAY_CAM_RELATIVE_HEADING(), 0, ENTITY::GET_ENTITY_HEADING(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID())) + CAM::GET_GAMEPLAY_CAM_RELATIVE_HEADING(), 0, 0);
+		//degree+=10;
+
+
+		tZ = rot.z * 0.0174532924f;
+		tX = rot.x * 0.0174532924f;
+		num = abs(cos(tX));
+		camCoords.x = (-sin(tZ)) * num;
+		camCoords.y = (cos(tZ)) * num;
+		camCoords.z = sin(tX);
+		if (KeyDown(0x57) || CONTROLS::IS_DISABLED_CONTROL_PRESSED(0, 208))
+		{
+			noclipCoords.x = noclipCoords.x + (camCoords.x * clipspeed);
+			noclipCoords.y = noclipCoords.y + (camCoords.y * clipspeed);
+			noclipCoords.z = noclipCoords.z + (camCoords.z * clipspeed);
+		}
+		if (KeyDown('S') || CONTROLS::IS_CONTROL_PRESSED(0, 207))
+		{
+			noclipCoords.x = noclipCoords.x - (camCoords.x * clipspeed);
+			noclipCoords.y = noclipCoords.y - (camCoords.y * clipspeed);
+			noclipCoords.z = noclipCoords.z - (camCoords.z * clipspeed);
+		}
+		if (KeyDown(VK_SHIFT))
+		{
+			if (clipspeed <= 4.0)
+				clipspeed += 0.05f;
+		}
+		if (KeyDown(VK_CONTROL))
+		{
+			if (clipspeed > 0.6)
+				clipspeed -= 0.1f;
+		}
+		ENTITY::SET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), noclipCoords.x, noclipCoords.y, noclipCoords.z, 1, 0, 0, 0);
+		ENTITY::SET_ENTITY_COLLISION(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), 1, 0);
+	}
+
+	bool Invisible = false;
+	void invisible()
+	{
+		if (Invisible/*when this toggle is getting verifiyed by a real bool its gonna work*/)
 		{
 			ENTITY::SET_ENTITY_VISIBLE(PLAYER::PLAYER_PED_ID(), false, 0);
 			ENTITY::SET_ENTITY_VISIBLE(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), false, 0);
@@ -33,30 +143,21 @@ namespace Mod_Hub_Base
 			ENTITY::SET_ENTITY_VISIBLE(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), true, 0);
 		}
 	}
-	bool macchinav = false;
+	bool fastrun = false;
 	int sposta = 0;
-	void macchinavolante()
-	{
-		//PLAYER::
-		if (macchinav)
-		{
-			Vector3 coords;
-			//coords = ENTITY::GET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), false);
-			coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
-			//coords.y = coords.y + 1;
-			//coords.x = coords.x + 1;
-			//coords.z = coords.z +sposta;
-			//Log::Msg(_strdup(sender.c_str()));SS
-			//Log::Msg(to_string(coords.z));
-			ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), coords.x, coords.y, coords.z,true, false, false,false);
-			//ENTITY::SET_ENTITY_COORDS(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), coords.x, coords.y, coords.z + 2.0, false, false, false, false);
-			//sposta++;
-		}
+
+	void FastRun() {
+		if(fastrun)
+			PLAYER::SET_RUN_SPRINT_MULTIPLIER_FOR_PLAYER(PLAYER::PLAYER_PED_ID(), 1.49f);
 		else
-		{
-			sposta = 0;
-		}
+			PLAYER::SET_RUN_SPRINT_MULTIPLIER_FOR_PLAYER(PLAYER::PLAYER_PED_ID(), 0);
+		/*WEAPON::RemoveWeaponFromPed(GetLocalPlayer().m_ped, Utils::GetHashKey("GADGET_PARACHUTE"));
+		if (PED::IsPedJumping(GetLocalPlayer().m_ped)) {
+			Utils::ApplyForceToEntity(GetLocalPlayer().m_ped, 0, 0, 2);
+		}*/
 	}
+
+	
 	bool moneyd = false;
 	void moneydrop()
 	{
@@ -82,24 +183,64 @@ namespace Mod_Hub_Base
 	void prova()
 	{
 		Player player = PLAYER::PLAYER_PED_ID();
-		/*if (prova1)
-		{
-		
-		PLAYER::SET_PLAYER_SPRINT(player, true);
-		PLAYER::GET_PLAYERS_LAST_VEHICLE();
-		prova1 = 0;
-		}*/
-		/*
-		PLAYER::RESET_WANTED_LEVEL_DIFFICULTY(player);
-		PLAYER::SET_PLAYER_WANTED_LEVEL(player, 2, false);
-		ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), true);*/
-		//ENTITY::SET_ENTITY_HAS_GRAVITY(Entity entity, BOOL toggle)
 		PLAYER::CLEAR_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID());
 		PLAYER::CLEAR_PLAYER_WANTED_LEVEL(player);
 	}
 
 	bool SuperJump = false;
 	bool genped = false;
+	bool generaufo = false;
+	Entity ufo;
+	void generaUfo()
+	{
+		Vector3 coords;
+		coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
+		STREAMING::REQUEST_MODEL(-1268267712);
+		while (!STREAMING::HAS_MODEL_LOADED(-1268267712)) {
+			WAIT(0);
+		}
+		/*
+		float heading = ENTITY::GET_ENTITY_HEADING(PLAYER::PLAYER_PED_ID());
+		STREAMING::REQUEST_MODEL(-1216765807);
+		while (!STREAMING::HAS_MODEL_LOADED(-1216765807)) {
+			WAIT(0);
+		}
+		int vehicle = VEHICLE::CREATE_VEHICLE(-1216765807, coords.x, coords.y, coords.z+50, heading, true, false);
+		PED::SET_PED_INTO_VEHICLE(PLAYER::PLAYER_PED_ID(), vehicle, -1);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(-1216765807);
+		*/
+
+		ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), coords.x, coords.y, coords.z+50, 1, 0, 0, 0);
+		//ENTITY::SET_ENTITY_VISIBLE(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()), false, 0);
+		ufo = OBJECT::CREATE_OBJECT(-1268267712, coords.x, coords.y, coords.z+50, 0, 1, 0);
+		noclip = true;
+		generaufo = true;
+		//ENTITY::SET_ENTITY_COLLISION(PLAYER::PLAYER_PED_ID(), 1, 1);
+		//ENTITY::SET_ENTITY_COLLISION(ufo, 1, 1);
+	}
+	void loopufo()
+	{
+		Vector3 coords;
+		coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
+		if (generaufo)
+		{
+			ENTITY::SET_ENTITY_COORDS(ufo, coords.x, coords.y, coords.z , 1, 0, 0, 0);
+			CAM::_ANIMATE_GAMEPLAY_CAM_ZOOM(1, 100);
+			degree = degree % 360;
+			//degree = degree % 360;
+			ENTITY::SET_ENTITY_ROTATION(ufo, 0, 0, degree, 0, 0);
+			degree += 10;
+			/*ENTITY::SET_ENTITY_ROTATION(ufo, CAM::GET_GAMEPLAY_CAM_RELATIVE_HEADING(), 0,
+				ENTITY::GET_ENTITY_HEADING(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID())) + CAM::GET_GAMEPLAY_CAM_RELATIVE_HEADING(), 0, 0);
+			ENTITY::_GET_ENTITY_COLLISON_DISABLED(ufo);
+			ENTITY::_GET_ENTITY_COLLISON_DISABLED(PED::GET_VEHICLE_PED_IS_USING(PLAYER::PLAYER_PED_ID()));
+			//CAM::SET_CAM_ROT(CAM::GET_RENDERING_CAM(), coords.x - 100, coords.y-100, coords.z, 0);
+			//CAM::SET_GAMEPLAY_CAM_RELATIVE_HEADING(200);
+			//CAM::SET_GAMEPLAY_CAM_SHAKE_AMPLITUDE(100);
+			
+			//CAM::SET_CAM_COORD(CAM::GET_DEBUG_CAM(), coords.x - 100, coords.y, coords.z);*/
+		}
+	}
 	void generaped()
 	{
 		Player player = PLAYER::PLAYER_PED_ID();
@@ -108,7 +249,8 @@ namespace Mod_Hub_Base
 		coords = ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), true);
 
 		//CreatePed("Adder", coords, 0,0);
-		//Log::Msg(_strdup(GAMEPLAY::GET_HASH_KEY("Adder")));
+		//Log::Msg(_strdup(GAMEPLAY::GET_HASH_KEY("p_spinning_anus_s")));
+		//-1216765807
 		float heading = ENTITY::GET_ENTITY_HEADING(player);
 		STREAMING::REQUEST_MODEL(-1216765807);
 		while (!STREAMING::HAS_MODEL_LOADED(-1216765807)) {
@@ -123,7 +265,9 @@ namespace Mod_Hub_Base
 
 		/*Ped p = PED::CREATE_PED(1, GAMEPLAY::GET_HASH_KEY("A_M_M_Salton_04"), coords.x, coords.y, coords.z, 0, 0, 1);
 		ClonePlayer(p);*/
+		generaUfo();
 	}
+	
 	
 
 	//unordered_map<string ,float*> locations;
@@ -203,14 +347,13 @@ namespace Mod_Hub_Base
 	}
 
 	bool NeverWanted = false;
-	void neverwanted(bool toggle)
+	void neverwanted()
 	{
 		Player player = PLAYER::PLAYER_PED_ID();
 		if (NeverWanted)
 		{
 			PLAYER::CLEAR_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID());
 			PLAYER::SET_MAX_WANTED_LEVEL(0);
-
 			PLAYER::SET_POLICE_IGNORE_PLAYER(player, true);
 			PLAYER::SET_EVERYONE_IGNORE_PLAYER(player, true);
 			PLAYER::SET_PLAYER_CAN_BE_HASSLED_BY_GANGS(player, false);
@@ -243,16 +386,13 @@ namespace Mod_Hub_Base
 	{
 		godmode();
 		moneydrop();
-		invisible(/*now is that bool toggle verified bt bool Invisible so this bool have now controll over invisible(bool toggle)*/Invisible);
 		superjump(SuperJump);
-		neverwanted(NeverWanted);
 		macchina_colorata();
-		//moneygive();		
-		//prova();
-		//SET_PED_MONEY(player, int amount)
-		macchinavolante();
+		NoClip();
+		NoClipCar();
+		loopufo();
 	}
-
+	
 
 
 	std::set<Ped> lastSeenPeds;

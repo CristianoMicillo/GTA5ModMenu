@@ -4,6 +4,8 @@
 #pragma once
 using namespace Mod_Hub_Base;
 #define VK_NOTHING	0x00				/*NULL*/
+#define VK_SHIFT    0x10				//SHIFT
+#define VK_CONTROL	0x11				//CONTROL
 #define VK_KEY_0	0x30                //('0')	0
 #define VK_KEY_1	0x31                //('1')	1
 #define VK_KEY_2	0x32                //('2')	2
