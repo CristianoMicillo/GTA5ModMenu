@@ -83,9 +83,9 @@ namespace Mod_Hub_Base::UserInterface
 		bool m_ImGuiActive = false;
 		bool m_Opened = false;
 		bool m_MouseLocked = false;
-		float m_PosX = 0.8f;
-		float m_PosY = 0.1f;
-		float m_Width = 0.256f;
+		float m_PosX = 0.84f;
+		float m_PosY = 0.04f;
+		float m_Width = 0.24f;
 		std::size_t m_OptionsPerPage = 16;
 		bool m_Sounds = false;
 		bool m_Controllerinput = false;
@@ -100,7 +100,7 @@ namespace Mod_Hub_Base::UserInterface
 		// Header
 		HeaderType m_HeaderType = HeaderType::YTD;
 		float m_HeaderHeight = 0.128f;
-		bool m_HeaderText = true;
+		bool m_HeaderText = false;
 		bool Rainbowmenu_titleBool = false;
 		float m_HeaderTextSize = 1.f;
 		Font m_HeaderFont = Font::HouseScript;
@@ -115,37 +115,38 @@ namespace Mod_Hub_Base::UserInterface
 		bool m_HeaderGradientFlip = false;
 		float m_HeaderGradientStretch = 0.f;
 		float m_HeaderGradientFiller = 0.f;
-		Color m_HeaderGradientColorLeft{ 0, 186, 255, 255 };
-		Color m_HeaderGradientColorRight{ 252, 0, 255, 255 };
+		Color m_HeaderGradientColorLeft{ 255, 255, 255, 255 };
+		Color m_HeaderGradientColorRight{ 255, 255, 255, 255 };
 
 		// Submenu bar
 		float m_SubmenuBarHeight = 0.04f;
 		float m_SubmenuBarTextSize = 0.4f;
-		Font m_SubmenuBarFont = Font::ChaletLondon;
+		Font m_SubmenuBarFont = Font::ChaletComprimeCologne;
 		float m_SubmenuBarPadding = 2.1f;
-		Color m_SubmenuBarBackgroundColor{ 0, 0, 0, 220 };
+		Color m_SubmenuBarBackgroundColor{ 0, 0, 0, 255 };
 		Color m_SubmenuBarTextColor{ 255, 255, 255, 255 };
 
 		// Options
-		float m_OptionHeight = 0.04f;
+		float m_OptionHeight = 0.028f;
 		float m_OptionTextSize = 0.35f;
-		Font m_OptionFont = Font::ChaletLondon;
+		Font m_OptionFont = Font::ChaletComprimeCologne;
 		float m_OptionPadding = 2.1f;
-		Color m_OptionSelectedTextColor{ 10, 10, 10, 255 };
+		Color m_OptionSelectedTextColor{ 0, 0, 0, 255 };
 		Color m_OptionUnselectedTextColor{ 255, 255, 255, 255 };
-		Color m_OptionSelectedBackgroundColor{ 255, 255, 255, 255 };
-		Color m_OptionUnselectedBackgroundColor{ 0, 0, 0, 160 };
+		Color m_OptionSelectedBackgroundColor{ 0, 160, 255, 255 };
+		Color m_OptionSelectedBackgroundColorLine{ 255, 255, 255, 255 };
+		Color m_OptionUnselectedBackgroundColor{ 0, 0, 0, 220 };
 		Color m_OptionNOTHING{ 0, 0, 0, 0 };
 
 		// Toggle / bool
-		bool Toggle_RainbowBool = true;
+		bool Toggle_RainbowBool = false;
 		//Color m_Toggle_On{ 0, 255, 0, 255 };
 		Color m_Toggle_Off{ 255, 0, 0, 255 };
 
 		// Footer
-		float m_FooterHeight = 0.04f;
-		float m_FooterSpriteSize = 0.025f;
-		Color m_FooterBackgroundColor{ 10, 10, 10, 200 };
+		float m_FooterHeight = 0.035f;
+		float m_FooterSpriteSize = 0.040f;
+		Color m_FooterBackgroundColor{ 0, 0, 0, 255 };
 		Color m_FooterSpriteColor{ 255, 255, 255, 255 };
 
 		// Description
@@ -173,6 +174,7 @@ namespace Mod_Hub_Base::UserInterface
 		float m_DrawBaseY{};
 		void Rainbow_Title();
 		void DrawHeader();
+		int CalculateCurrentTextureIndex();
 		void DrawSubmenuBar(AbstractSubmenu* sub);
 		void Toggle_Rainbow();
 		void DrawOption(AbstractOption* opt, bool selected, AbstractSubmenu& sub, bool editableVersion);

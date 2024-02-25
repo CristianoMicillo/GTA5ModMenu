@@ -9,15 +9,21 @@ void fisrt_start()
 	StreamTextureFile = StreamTexture + ".ytd";// Texture File (StreamTexture.ytd) //Do NOT TUCH THIS LINE!
 	TextureName = "MH_Base_TxName";// Texture name, The name of the picture inside texture file(StreamTextureFile)/StreamTexture
 
+	std::string StreamTextureMisc = "misc";
+	std::string StreamMiscFile = StreamTextureMisc + ".ytd";
+
+	
+	
 	fstream appDpath(Documents_Patha().c_str());
 
 	if (!fs::exists(Documents_Patha().c_str()))//checking path for ytd file exist or not
 		fs::create_directory(Documents_Patha().c_str());
-	string DownloadP = Documents_Patha() + string("\\") + StreamTextureFile/*This What the file going to be named when downloaded*/;
+	
 	
 
 	g_YtdLoader->init(); // Documents_Patha() = appdata + menu name
 	g_YtdLoader->loadYtd(Documents_Patha() + /*this ytd file path*/"\\" + StreamTextureFile, /*this is your file*/StreamTextureFile); // this start/booting upp your ytd file
+	g_YtdLoader->loadYtd(Documents_Patha() + "\\" + StreamMiscFile, StreamMiscFile);
 	/*TO CHANGE THE SETTINGS IN THE MAIN TITLE GO THERE AND YOU WILL FIND
 	YTD_Stream_Texture AND YTD_Texture_Name
 	AND THERE YOU EDIT IN YOUR CUSTOM NAMES DOME.*/
@@ -160,6 +166,10 @@ namespace Mod_Hub_Base
 					sub->AddOption<NumberOption<std::uint8_t>>("Selected Background G", nullptr, &g_UiManager->m_OptionSelectedBackgroundColor.g, '\0', static_cast<std::uint8_t>(255));
 					sub->AddOption<NumberOption<std::uint8_t>>("Selected Background B", nullptr, &g_UiManager->m_OptionSelectedBackgroundColor.b, '\0', static_cast<std::uint8_t>(255));
 					sub->AddOption<NumberOption<std::uint8_t>>("Selected Background A", nullptr, &g_UiManager->m_OptionSelectedBackgroundColor.a, '\0', static_cast<std::uint8_t>(255));
+					sub->AddOption<NumberOption<std::uint8_t>>("Selected Background Line R", nullptr, &g_UiManager->m_OptionSelectedBackgroundColorLine.r, '\0', static_cast<std::uint8_t>(255));
+					sub->AddOption<NumberOption<std::uint8_t>>("Selected Background Line G", nullptr, &g_UiManager->m_OptionSelectedBackgroundColorLine.g, '\0', static_cast<std::uint8_t>(255));
+					sub->AddOption<NumberOption<std::uint8_t>>("Selected Background Line B", nullptr, &g_UiManager->m_OptionSelectedBackgroundColorLine.b, '\0', static_cast<std::uint8_t>(255));
+					sub->AddOption<NumberOption<std::uint8_t>>("Selected Background Line A", nullptr, &g_UiManager->m_OptionSelectedBackgroundColorLine.a, '\0', static_cast<std::uint8_t>(255));
 					sub->AddOption<NumberOption<std::uint8_t>>("Unselected Background R", nullptr, &g_UiManager->m_OptionUnselectedBackgroundColor.r, '\0', static_cast<std::uint8_t>(255));
 					sub->AddOption<NumberOption<std::uint8_t>>("Unselected Background G", nullptr, &g_UiManager->m_OptionUnselectedBackgroundColor.g, '\0', static_cast<std::uint8_t>(255));
 					sub->AddOption<NumberOption<std::uint8_t>>("Unselected Background B", nullptr, &g_UiManager->m_OptionUnselectedBackgroundColor.b, '\0', static_cast<std::uint8_t>(255));

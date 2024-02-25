@@ -22,6 +22,21 @@ namespace Mod_Hub_Base::UserInterface
 	double opt_end = 0;
 	int minusOpacity = 0;
 	double scroll_speed = 0.0625f;
+	int currentTextureIndex = 1;
+
+	int UIManager::CalculateCurrentTextureIndex()
+	{
+		
+		currentTextureIndex++;
+
+		
+		if (currentTextureIndex > 80) {
+			currentTextureIndex = 1;
+		}
+
+		return currentTextureIndex;
+	}
+
 	double lerp(double start, double end, double amount) {
 		return start * (1 - amount) + end * amount;
 	}
@@ -374,11 +389,12 @@ namespace Mod_Hub_Base::UserInterface
 			break;
 
 		case HeaderType::YTD:
+			int currentTextureIndex = CalculateCurrentTextureIndex();
 			const char* YTD_Stream_Texture = StreamTexture.c_str();// Streaming Texture = Texture File - .ytd so write same name but without .ytd
-			const char* YTD_Texture_Name = TextureName.c_str(); // Texture name, The name of the picture inside texture file(StreamTextureFile)/StreamTexture
+			std::string YTD_Texture_Name = std::to_string(currentTextureIndex); // Texture name, The name of the picture inside texture file(StreamTextureFile)/StreamTexture
 			DrawSprite(
 				YTD_Stream_Texture,
-				YTD_Texture_Name,
+				YTD_Texture_Name.c_str(),
 				m_PosX + (m_HeaderGradientStretch / 2.f),
 				m_DrawBaseY + (m_HeaderHeight / 2.f),
 				m_Width + m_HeaderGradientStretch + m_HeaderGradientFiller,
@@ -506,10 +522,14 @@ namespace Mod_Hub_Base::UserInterface
 				m_OptionHeight,
 				m_OptionSelectedBackgroundColor);
 
-			// can use ytd
-		}
-		if (selected)
-		{
+			DrawRect(
+				m_PosX,
+				current - (m_OptionHeight/2),
+				m_Width,
+				0.001,
+				m_OptionSelectedBackgroundColorLine);
+
+			// Disegna la scrollbar solo se l'opzione è selezionata
 			DrawRect(
 				m_PosX - 0.113 - ((m_Width - 0.21) / 2),
 				scrollCurrent,
@@ -537,14 +557,13 @@ namespace Mod_Hub_Base::UserInterface
 
 		if (opt->GetFlag(OptionFlag::Enterable))
 		{
-			DrawRightText(
-				">",
-				m_PosX + (m_Width / m_OptionPadding),
-				m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(Font::Monospace, m_OptionTextSize) / 1.725f),
-				m_OptionTextSize,
-				Font::Monospace,
-				selected ? m_OptionSelectedTextColor : m_OptionUnselectedTextColor,
-				false, false);
+			const char* arrowTexture = selected ? "selected_arrow" : "unselected_arrow";
+			float arrowPosX = m_PosX + (m_Width / m_OptionPadding);
+			float arrowPosY = m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(m_OptionFont, m_OptionTextSize) / 1.5f) + 0.015f; // Aggiunto un piccolo offset verso il basso
+			float arrowSizeX = m_OptionTextSize * 0.02; // Ridimensionamento della larghezza (metà della dimensione attuale)
+			float arrowSizeY = m_OptionTextSize * 0.03; // Ridimensionamento dell'altezza (metà della dimensione attuale)
+
+			DrawSprite("misc", arrowTexture, arrowPosX, arrowPosY, arrowSizeX, arrowSizeY, { 255, 255, 255, 255 }, 0);
 		}
 
 		if (shouldDrawTick == 1)
@@ -577,29 +596,13 @@ namespace Mod_Hub_Base::UserInterface
 
 		float size = m_FooterSpriteSize;
 		float rotation = 0.f;
-		const char* texture = "shop_arrows_upanddown";
-
-		if (!m_SubmenuStack.empty())
-		{
-			auto sub = m_SubmenuStack.top();
-			if (sub->GetSelectedOption() == 0)
-			{
-				rotation = 90.f;
-				texture = "arrowright";
-				size *= 0.8f;
-			}
-			else if (sub->GetSelectedOption() + 1 == sub->GetNumOptions())
-			{
-				rotation = 270.f;
-				texture = "arrowright";
-				size *= 0.8f;
-			}
-		}
+		const char* texture = "Menu_logo";
+		size *= 0.8f;
 
 		auto sizee = GetSpriteScale(size);
 
 		DrawSprite(
-			"commonmenu",
+			"misc",
 			texture,
 			m_PosX,
 			m_DrawBaseY + (m_FooterHeight / 2.f),
@@ -673,7 +676,6 @@ namespace Mod_Hub_Base::UserInterface
 		if (GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(dict))
 		{
 			GRAPHICS::DRAW_SPRITE(dict, texture, x, y, width, height, rotation, color.r, color.g, color.b, color.a);
-			//Log::Msg("Funziona");
 			
 		}
 		else

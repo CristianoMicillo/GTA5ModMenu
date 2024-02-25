@@ -32,12 +32,14 @@ namespace Mod_Hub_Base
 	*/
 	Vector3 noclipCoords;
 	bool noclip=false;
+	bool first = 1;
 	int degree = 0;
 	float clipspeed = 1.0f;
 	void NoClip()
 	{
 		if (!noclip)
 		{
+			first = 1;
 			return;
 		}
 		Vector3 camCoords;
@@ -80,6 +82,11 @@ namespace Mod_Hub_Base
 		}
 		ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), noclipCoords.x, noclipCoords.y, noclipCoords.z,1,0,0,0);
 		ENTITY::SET_ENTITY_COLLISION(PLAYER::PLAYER_PED_ID(), 1, 1);
+		if (first)
+		{
+			notify_Custom((char*)Mod_Menu_Name"", "~s~No Clip\nHotkeys:\nW: Go forward\nS: Go backward\nSHIFT: Go faster\nL_CTRL: Slow down");
+			first = 0;
+		}
 	}
 
 	bool noclipcar = false;
@@ -843,12 +850,12 @@ namespace Mod_Hub_Base
 		char buff2[2048] = { 0 };
 		sprintf_s(buff2, "%s", buf);
 
-		GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(/*ytd file name "DO NOT USE .ytd"*/"MH_BAse_", false);
-		while (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(/*ytd file name "DO NOT USE .ytd"*/"MH_BAse_")) WAIT(0);
+		GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(/*ytd file name "DO NOT USE .ytd"*/"misc", false);
+		while (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(/*ytd file name "DO NOT USE .ytd"*/"misc")) WAIT(0);
 
 		UI::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
 		UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(fmt);
-		UI::_SET_NOTIFICATION_MESSAGE_CLAN_TAG_2(/*ytd file name "DO NOT USE .ytd"*/"MH_BAse_", /*Texture name inside ytd file*/"Mod_Hub_Logo_Icon", false, 1, "Mod Hub", Head_txt, 1, "", 9, 0); //  can create a custom ytd icon
+		UI::_SET_NOTIFICATION_MESSAGE_CLAN_TAG_2(/*ytd file name "DO NOT USE .ytd"*/"misc", /*Texture name inside ytd file*/"Menu_logo", false, 1, "Menu", Head_txt, 1, "", 9, 0); //  can create a custom ytd icon
 		UI::END_TEXT_COMMAND_THEFEED_POST_TICKER(8000, 0);
 
 
