@@ -557,29 +557,26 @@ namespace Mod_Hub_Base::UserInterface
 
 		if (opt->GetFlag(OptionFlag::Enterable))
 		{
-			const char* arrowTexture = selected ? "selected_arrow" : "unselected_arrow";
-			float arrowPosX = m_PosX + (m_Width / m_OptionPadding);
+			//const char* arrowTexture = selected ? "selected_arrow" : "unselected_arrow";
+			float arrowPosX = m_PosX + (m_Width / m_OptionPadding) - 0.01;
 			float arrowPosY = m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(m_OptionFont, m_OptionTextSize) / 1.5f) + 0.015f; // Aggiunto un piccolo offset verso il basso
 			float arrowSizeX = m_OptionTextSize * 0.02; // Ridimensionamento della larghezza (metà della dimensione attuale)
-			float arrowSizeY = m_OptionTextSize * 0.03; // Ridimensionamento dell'altezza (metà della dimensione attuale)
+			float arrowSizeY = m_OptionTextSize * 0.04; // Ridimensionamento dell'altezza (metà della dimensione attuale)
 
-			DrawSprite("misc", arrowTexture, arrowPosX, arrowPosY, arrowSizeX, arrowSizeY, { 255, 255, 255, 255 }, 0);
+			DrawSprite("misc", "arrow", arrowPosX, arrowPosY, arrowSizeX, arrowSizeY, { 255, 255, 255, 255 }, 0);
 		}
 
 		if (shouldDrawTick == 1)
 		{
-			DrawSprite("commonmenu", "shop_box_crossb", m_PosX + (m_Width / m_OptionPadding) - 0.01,
-				m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(m_OptionFont, m_OptionTextSize) / 1.5f) + 0.0125, m_OptionTextSize * 0.073,
-				m_OptionTextSize * 0.13, m_Toggle_Off, 0);
+			DrawSprite("misc", "switch_off", m_PosX + (m_Width / m_OptionPadding) - 0.01,
+				m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(m_OptionFont, m_OptionTextSize) / 1.5f) + 0.0125, m_OptionTextSize * 0.050,
+				m_OptionTextSize * 0.08, { 255, 255, 255, 255 }, 0);
 		}
 		else if (shouldDrawTick == 2)
 		{
-			DrawSprite("commonmenu", "shop_tick_icon", m_PosX + (m_Width / m_OptionPadding) - 0.01,
-				m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(m_OptionFont, m_OptionTextSize) / 1.5f) + 0.0125, m_OptionTextSize * 0.068,
-				m_OptionTextSize * 0.10, m_Toggle_On, 0);
-			DrawSprite("commonmenu", "shop_box_blankb", m_PosX + (m_Width / m_OptionPadding) - 0.01,
-				m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(m_OptionFont, m_OptionTextSize) / 1.5f) + 0.0125, m_OptionTextSize * 0.073,
-				m_OptionTextSize * 0.13, m_Toggle_On, 0);
+			DrawSprite("misc", "switch_on", m_PosX + (m_Width / m_OptionPadding) - 0.01,
+				m_DrawBaseY + (m_OptionHeight / 2.f) - (GetTextHeight(m_OptionFont, m_OptionTextSize) / 1.5f) + 0.0125, m_OptionTextSize * 0.050,
+				m_OptionTextSize * 0.08, { 255, 255, 255, 255 }, 0);
 		}
 
 		m_DrawBaseY += m_OptionHeight;

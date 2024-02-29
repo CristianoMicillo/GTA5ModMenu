@@ -95,7 +95,7 @@ namespace Mod_Hub_Base::UserInterface
 		std::int32_t m_BackDelay = 300;
 		std::int32_t m_EnterDelay = 300;
 		std::int32_t m_VerticalDelay = 120;
-		std::int32_t m_HorizontalDelay = 120;
+		std::int32_t m_HorizontalDelay = 10;
 
 		// Header
 		HeaderType m_HeaderType = HeaderType::YTD;
@@ -134,8 +134,8 @@ namespace Mod_Hub_Base::UserInterface
 		Color m_OptionSelectedTextColor{ 0, 0, 0, 255 };
 		Color m_OptionUnselectedTextColor{ 255, 255, 255, 255 };
 		Color m_OptionSelectedBackgroundColor{ 0, 160, 255, 255 };
-		Color m_OptionSelectedBackgroundColorLine{ 255, 255, 255, 255 };
-		Color m_OptionUnselectedBackgroundColor{ 0, 0, 0, 220 };
+		Color m_OptionSelectedBackgroundColorLine{ 255, 255, 255, 160 };
+		Color m_OptionUnselectedBackgroundColor{ 0, 0, 0, 160 };
 		Color m_OptionNOTHING{ 0, 0, 0, 0 };
 
 		// Toggle / bool
